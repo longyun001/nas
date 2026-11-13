@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="__CSP__">
+  <meta name="description" content="你的 NAS 服务入口。分组导航、快速搜索与真实的 HTTP 入口检测。">
+  <title>NAS 导航 · 我的服务空间</title>
+  <style>__STYLES__</style>
+</head>
+<body>
+  <a class="skip-link" href="#serviceGroups">跳到服务列表</a>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="NAS 导航首页"><span class="brand-mark" data-icon="layers"></span><span>NAS 导航<span class="brand-sub">我的服务空间</span></span></a>
+    <div class="topbar-actions">
+      <span class="device-label"><span class="tiny-dot"></span>Self-hosted</span>
+      <button class="icon-button" id="themeToggle" aria-label="切换明暗主题" title="切换明暗主题" data-icon="moon"></button>
+      <button class="icon-button" id="settingsButton" aria-label="导航设置" title="导航设置" data-icon="settings"></button>
+      <span class="avatar" aria-label="私人空间">H</span>
+    </div>
+  </header>
+  <main class="page-shell">
+    <section class="welcome" aria-labelledby="greeting">
+      <div><div class="eyebrow">HOME, CONNECTED.</div><h1 id="greeting">你好，欢迎回来<span class="greeting-dot">.</span></h1><p>常用服务，都在这里。</p></div>
+      <div class="clock-block"><time id="clockTime">--:--</time><div id="clockDate"></div></div>
+    </section>
+    <section class="overview" aria-label="导航概览">
+      <div class="overview-cell"><span class="overview-icon cyan" data-icon="grid"></span><div><span class="stat-label">服务入口</span><strong id="serviceCount">0<span>个</span></strong></div></div>
+      <div class="overview-cell"><span class="overview-icon violet" data-icon="layers"></span><div><span class="stat-label">服务分组</span><strong id="groupCount">0<span>组</span></strong></div></div>
+      <div class="overview-cell"><span class="overview-icon amber" data-icon="star"></span><div><span class="stat-label">快捷收藏</span><strong id="favoriteCount">0<span>个</span></strong></div></div>
+      <div class="overview-cell connection-cell"><span class="overview-icon mint" data-icon="globe"></span><div><span class="stat-label">当前访问</span><strong class="network-stat" id="networkLabel">内网</strong></div><span class="auto-chip" id="modeLabel">自动</span></div>
+    </section>
+    <section class="search-tools" aria-label="搜索与连接方式">
+      <form class="search-box" id="searchForm" role="search">
+        <span data-icon="search"></span><label class="sr-only" for="searchInput">搜索服务名称、说明或标签</label>
+        <input id="searchInput" type="search" placeholder="搜索服务、标签，或用 SearXNG 搜索…" autocomplete="off" maxlength="200">
+        <button type="button" id="searchWeb" class="search-provider" title="在 SearXNG 搜索当前内容">SearXNG <span data-icon="arrow"></span></button>
+        <kbd>Ctrl K</kbd>
+      </form>
+      <div class="network-switch" aria-label="服务链接访问方式" role="group"><button type="button" data-network="auto" aria-pressed="true">自动</button><button type="button" data-network="lan" aria-pressed="false">内网</button><button type="button" data-network="wan" aria-pressed="false">外网</button></div>
+    </section>
+    <section class="favorite-section" id="favoriteSection" aria-labelledby="favoritesHeading" hidden><div class="section-line"><h2 id="favoritesHeading"><span data-icon="star"></span>快捷收藏</h2><span class="section-hint">常用服务，一步直达</span></div><div class="favorites-grid" id="favoritesGrid"></div></section>
+    <section class="services-section" aria-label="全部服务">
+      <div class="section-line service-toolbar"><div><h2>服务总览 <span class="count-pill" id="visibleCount">0</span></h2></div><div class="toolbar-actions"><button class="quiet-button" id="checkButton"><span data-icon="refresh"></span><span>检查入口</span></button><button class="primary-button" id="addButton"><span data-icon="plus"></span>添加服务</button></div></div>
+      <nav id="groupTabs" class="group-tabs" aria-label="按服务分组筛选"></nav>
+      <div class="check-caption" id="checkCaption"><span class="tiny-dot neutral"></span><span>入口尚未检测</span><button id="checkInfoButton" class="text-button">检测说明 <span data-icon="chevron"></span></button></div>
+      <div id="serviceGroups" tabindex="-1"></div>
+      <div class="empty-state" id="emptyState" hidden><span data-icon="search"></span><h3>没有找到匹配的服务</h3><p>换个关键词，或添加一个新的服务入口。</p><button class="quiet-button" id="clearSearch">清除筛选</button></div>
+    </section>
+    <aside class="migration-banner" id="migrationBanner" hidden><span data-icon="shield"></span><span>已兼容旧版卡片并保留原链接；旧版浏览器数据仍保留。</span><button class="icon-button" id="dismissMigration" aria-label="关闭迁移提示" data-icon="close"></button></aside>
+  </main>
+  <footer class="page-footer"><span><span class="tiny-dot"></span>每个入口，都有归处。</span><div><a href="https://github.com/gethomepage/homepage/tree/v2.8.0" target="_blank" rel="noopener noreferrer">参考 Homepage</a><span class="footer-separator">/</span><button class="text-button" id="footerSettings">本地配置</button><span class="footer-separator">/</span><span>v3.0</span></div></footer>
+  <dialog id="serviceDialog" class="dialog">
+    <form id="serviceForm">
+      <div class="dialog-header"><div><span class="eyebrow">YOUR SERVICES</span><h2 id="serviceDialogTitle">添加服务</h2></div><button type="button" class="icon-button" data-close="serviceDialog" aria-label="关闭" data-icon="close"></button></div>
+      <input id="editId" type="hidden">
+      <div class="form-row"><label class="field">服务名称<input id="fName" maxlength="80" required placeholder="例如：我的笔记"></label><label class="field short-field">图标<input id="fIcon" maxlength="24" placeholder="例如：📓"></label></div>
+      <label class="field">一句话说明<input id="fDescription" maxlength="240" placeholder="这个服务可以做什么"></label>
+      <label class="field">分组<input id="fGroup" list="groupOptions" maxlength="40" required placeholder="选择或输入新分组"><datalist id="groupOptions"></datalist></label>
+      <label class="field">服务链接<textarea id="fLinks" rows="3" maxlength="12000" placeholder="http://192.0.2.10:端口/" aria-describedby="linksHelp"></textarea><small id="linksHelp">每行一个 HTTP / HTTPS 地址；多个入口可写成「入口名称 | 地址」。</small></label>
+      <label class="field">标签<input id="fTags" maxlength="300" placeholder="用逗号分隔，例如：工具, 笔记"></label>
+      <details class="advanced-options"><summary>更多信息</summary><label class="field">容器名称（选填）<input id="fContainer" maxlength="120"></label><label class="check-field"><input id="fFavorite" type="checkbox">加入快捷收藏</label></details>
+      <p id="serviceError" class="form-error" role="alert" hidden></p>
+      <div class="dialog-footer"><button type="button" class="danger-button" id="deleteButton" hidden>删除服务</button><div class="dialog-footer-right"><button type="button" class="quiet-button" data-close="serviceDialog">取消</button><button class="primary-button" type="submit">保存服务</button></div></div>
+    </form>
+  </dialog>
+  <dialog id="settingsDialog" class="dialog">
+    <form id="settingsForm">
+      <div class="dialog-header"><div><span class="eyebrow">MAKE IT YOURS</span><h2>导航设置</h2></div><button type="button" class="icon-button" data-close="settingsDialog" aria-label="关闭" data-icon="close"></button></div>
+      <label class="field">外观<select id="sTheme"><option value="dark">深色</option><option value="light">浅色</option><option value="system">跟随系统</option></select></label>
+      <div class="form-row"><label class="field">内网主机<input id="sLanHost" maxlength="253" placeholder="192.0.2.10"></label><label class="field">外网主机<input id="sWanHost" maxlength="253" placeholder="你的 DDNS 域名"></label></div>
+      <p class="field-help">填写主机名或 IP，不含协议与端口。切换访问方式会替换已识别的 NAS 直连主机；自定义反代域名保持卡片中的地址。</p>
+      <label class="check-field"><input id="sAutoCheck" type="checkbox">页面打开时检查入口，每 60 秒刷新</label>
+      <div class="settings-section"><h3>配置备份</h3><p>卡片与偏好保存在当前浏览器、当前访问地址。换设备或访问地址时，可以导出后再导入。</p><div class="settings-buttons"><button type="button" class="quiet-button" id="exportButton"><span data-icon="download"></span>导出配置</button><button type="button" class="quiet-button" id="importButton"><span data-icon="upload"></span>导入配置</button></div><input id="importFile" type="file" accept="application/json,.json" hidden></div>
+      <div class="settings-section settings-about"><span data-icon="shield"></span><p>旧版配置单独保留。页面不会保存服务密码或 API Key；登录仍由各个服务负责。</p></div>
+      <p id="settingsError" class="form-error" role="alert" hidden></p>
+      <div class="dialog-footer"><button type="button" class="quiet-button" id="addPresets">补充常用入口</button><button type="submit" class="primary-button">保存设置</button></div>
+    </form>
+  </dialog>
+  <dialog id="confirmDialog" class="dialog small-dialog"><div class="dialog-header"><h2 id="confirmTitle">确认操作</h2><button class="icon-button" data-close="confirmDialog" aria-label="关闭" data-icon="close"></button></div><p id="confirmText" class="confirm-copy"></p><div class="dialog-footer"><button class="quiet-button" data-close="confirmDialog">取消</button><button class="primary-button" id="confirmAction">确认</button></div></dialog>
+  <dialog id="infoDialog" class="dialog small-dialog"><div class="dialog-header"><h2 id="infoTitle">入口检测说明</h2><button class="icon-button" data-close="infoDialog" aria-label="关闭" data-icon="close"></button></div><div id="infoContent" class="info-content"></div><div class="dialog-footer"><button class="primary-button" data-close="infoDialog">知道了</button></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden><span id="toastText"></span><button id="toastUndo" class="text-button" hidden>撤销</button></div>
+  <noscript><div class="noscript">请开启 JavaScript 以显示本地服务配置。旧版配置不会被删除。</div></noscript>
+  <script type="module">__SCRIPT__</script>
+</body>
+</html>
