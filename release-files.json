@@ -1,0 +1,8 @@
+[
+  ".dockerignore", ".gitattributes", ".gitignore",
+  "Dockerfile", "README.md", "UPSTREAM.md", "build.mjs", "compose.yaml",
+  "config.example.mjs", "config.mjs", "docs/CONFIGURATION.md", "docs/DEPLOYMENT.md", "docs/PRIVACY.md",
+  "package.json", "release-files.json", "scripts/check-public.mjs", "server.mjs",
+  "src/app.mjs", "src/core.mjs", "src/icons.mjs", "src/index.html", "src/styles.css",
+  "tests/build.test.mjs", "tests/core.test.mjs"
+]

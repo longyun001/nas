@@ -1,0 +1,14 @@
+{
+  "name": "nas-navigation",
+  "version": "3.0.0",
+  "description": "A self-hosted NAS navigation page with grouping, search and optional fixed-target HTTP checks",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node build.mjs",
+    "preview": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check:public": "node scripts/check-public.mjs"
+  }
+}
